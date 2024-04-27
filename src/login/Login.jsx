@@ -1,98 +1,130 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useSignIn } from "react-auth-kit";
-import "./Login.css";
+import React, { Component } from 'react';
+import './Login.css';
+import Alert from '../NewsBox/Alert';
+import Dashboard from '../dashboard/Dashboard.jsx'; // Import your Dashboard component
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [err, setErr] = useState("");
-  const signIn = useSignIn();
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      err: '',
+      isSignUpActive: false,
+      isAuthenticated: false,
+      token: '',
+      expiresIn: 0
+    };
+  }
 
-  const handleInput = (event) => {
-    const { name, value } = event.target;
-    if (name === "email") setEmail(value);
-    if (name === "password") setPassword(value);
+  handleSignUpClick = () => {
+    this.setState({ isSignUpActive: true, err: '' }); 
   };
 
-  const handleSubmit = async (event) => {
+  handleSignInClick = () => {
+    this.setState({ isSignUpActive: false, err: '' }); 
+  }
+
+  handleInput = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
+  handleSubmit = async (event) => {
     event.preventDefault();
+    const { email, password } = this.state;
     const values = { email, password };
     console.log("Values:", values);
-    setErr("");
-
+    this.setState({ err: '' });
+    
     try {
-      const response = await axios.post("http://localhost:3000/login", values);
-      signIn({
-        token: response.data.token,
-        expiresin: 3600,
-        tokenType: "Bearer",
-        authState: { email: values.email },
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+  
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage || "Network response was not ok");
+      }
+      else{
+        this.setState({err:''})
+      }
+  
+      const data = await response.json();
+      // Store authentication data in state
+      this.setState({
+        isAuthenticated: true,
+        token: data.token,
+        expiresIn: 3600, // Assuming the token expires in 3600 seconds
+        err: ''
       });
     } catch (error) {
-      //   if (error.response) {
-      //     // Request made and server responded (but not ok)
-      //     setErr(`${error.response.data.message}`);
-      //   } else if (error.request) {
-      //     // The request was made but no response was received
-      //     setErr('Server is offline');
-      //   } else {
-      //     // Something happened in setting up the request that triggered an Error
-      //     setErr('Error occurred while trying to log you in')
-      //   }
-      // }
+      console.error(error);
+      // Set the error message in state
+      this.setState({ err: error.message || "An error occurred" });
     }
   };
 
-  return (
-    <div className="container" id="container">
-      <div className="form-container sign-in-container">
-        <form onSubmit={handleSubmit}>
-          <h1>Sign in</h1>
-          <br />
-          <span>Use your account</span>
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            value={email}
-            onChange={handleInput}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={handleInput}
-          />
-          <a href="#">Forgot your password?</a>
-          <button className="btn" type="submit">
-            Sign In
-          </button>
-        </form>
-      </div>
-      <div className="overlay-container">
-        <div className="overlay">
-          <div className="overlay-panel overlay-left">
-            <h1>Welcome Back!</h1>
-            <p>
-              To keep connected with us please login with your personal info
-            </p>
-            <button className="ghost" id="signIn">
-              Sign In
-            </button>
+  render() {
+    const { email, password, err, isSignUpActive, isAuthenticated } = this.state;
+
+    // Redirect to Dashboard component if authenticated
+    if (isAuthenticated) {
+      return <Dashboard />;
+    }
+
+    return (
+      <div className='main'>
+        <div className={`container1 ${isSignUpActive ? 'right-panel-active' : ''}`} id="container1">
+          {/* Sign-up form */}
+          <div className="form-container1 sign-up-container1">
+            <form className='form1' onSubmit={this.handleSubmit}>
+              <h1 className='h1'>Create Account</h1>
+              <span>use your email for registration</span>
+              {err && <Alert message={err} />}
+              <input className='input1' type="text" placeholder="Name" name="name" onChange={this.handleInput} />
+              <input className='input1' type="email" placeholder="Email" name="email" value={email} onChange={this.handleInput} />
+              <input className='input1' type="password" placeholder="Password" name="password" value={password} onChange={this.handleInput} />
+              <button className='btnlogin' type="submit">Sign Up</button>
+            </form>
           </div>
-          <div className="overlay-panel overlay-right">
-            <h1>Hello, Friend!</h1>
-            <p>Enter your personal details and start journey with us</p>
-            <button className="ghost btn" id="signUp">
-              Sign Up
-            </button>
+
+          {/* Sign-in form */}
+          <div className="form-container1 sign-in-container1">
+            <form className='form1' onSubmit={this.handleSubmit}>
+              <h1 className='h1'>Sign in</h1>
+              <span>use your account</span>
+              {err && <Alert message={err} />}
+              <input className='input1' type="email" placeholder="Email" name="email" value={email} onChange={this.handleInput} />
+              <input className='input1' type="password" placeholder="Password" name="password" value={password} onChange={this.handleInput} />
+              <a className='a' href="#">Forgot your password?</a>
+              <button className='btnlogin' type="submit">Sign In</button>
+            </form>
+          </div>
+
+          {/* Overlay content */}
+          <div className="overlay-container1">
+            <div className="overlay">
+              <div className="overlay-panel overlay-left">
+                <h1 className='h1'>Welcome Back!</h1>
+                <p className='.p'>To keep connected with us please login with your personal info</p>
+                <button className='btnlogin ghost' id="signIn" onClick={this.handleSignInClick}>Sign In</button>
+              </div>
+              <div className="overlay-panel overlay-right">
+                <h1 className='h1'>Hello, Friend!</h1>
+                <p className='.p'>Enter your personal details and start journey with us</p>
+                <button className='btnlogin ghost' id="signUp" onClick={this.handleSignUpClick}>Sign Up</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default Login;

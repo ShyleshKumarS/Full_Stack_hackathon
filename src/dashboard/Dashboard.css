@@ -1,0 +1,11 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .dashboard {
+    margin-top: 20px;
+    padding: 20px;
+  }
+  
