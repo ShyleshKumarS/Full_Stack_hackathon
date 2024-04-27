@@ -14,6 +14,10 @@ const newsSchema = mongoose.Schema({
         required: true,
         minlength: 30
     },
+    img:{
+        type: String,
+        required: true
+    },
     views: {
         type: Number,
         default: 0

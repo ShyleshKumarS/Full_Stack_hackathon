@@ -9,6 +9,39 @@ const createToken = (id) => {
     })
 }
 
+const handleSignUpErrors = (err) => {
+    console.log(err.message, err.code)
+    let errors = { 'username': '', 'password': '' }
+
+    if (err.code === 11000) {
+        errors['username'] = 'Admin already exists!'
+        return errors
+    }
+
+    if (err.message.includes('user validation failed')){
+        Object.values(err.errors).forEach(({properties}) => {
+            console.log(properties.path)
+            errors[properties.path] = properties.message
+        });
+    }
+    return errors
+}
+
+const handleLoginErrors = (err) => {
+    console.log(err.message, err.code)
+    let errors = { 'username': '', 'password': ''}
+
+    if (err.message === 'Invalid username!') {
+        errors['username'] = err.message
+    } 
+
+    if (err.message === 'Invalid password!') {
+        errors['password'] = err.message
+    } 
+
+    return errors
+}
+
 const loginAdmin = async (req, res) => {
     console.log('logging in...')
     const {username, password} = req.body
@@ -26,6 +59,8 @@ const loginAdmin = async (req, res) => {
         }
     } catch(err) {
         console.log(err)
+        const errors = handleLoginErrors(err)
+        res.status(400).json(errors)
     }
 }
 
@@ -36,8 +71,9 @@ const addAdmin = async(req, res) => {
         const json = await Admin.create({username, password})
         res.status(200).json(json) 
     } catch(err){
-        res.status(400)
         console.log(err)
+        const errors = handleSignUpErrors(err)
+        res.status(400).json(errors)
     }
 }
 

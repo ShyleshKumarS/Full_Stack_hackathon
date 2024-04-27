@@ -1,6 +1,39 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
+const handleSignUpErrors = (err) => {
+    console.log(err.message, err.code)
+    let errors = { 'email': '', 'password': ''}
+
+    if (err.code === 11000) {
+        errors['email'] = 'User already exists!'
+        return errors
+    }
+
+    if (err.message.includes('user validation failed')){
+        Object.values(err.errors).forEach(({properties}) => {
+            console.log(properties.path)
+            errors[properties.path] = properties.message
+        });
+    }
+    return errors
+}
+
+const handleLoginErrors = (err) => {
+    console.log(err.message, err.code)
+    let errors = { 'email': '', 'password': ''}
+
+    if (err.message === 'Invalid email!') {
+        errors['email'] = err.message
+    } 
+
+    if (err.message === 'Invalid password!') {
+        errors['password'] = err.message
+    } 
+
+    return errors
+}
+
 const secret = process.env.SECRET 
 const maxAge = 15 * 60
 const createToken = (id) => {
@@ -20,8 +53,9 @@ const addUser = async (req, res) => {
         })
         res.status(201).json({user: user_id})
     } catch (err) {
-        res.status(400).json({error: "User not created"})
         console.log(err)
+        const errors = handleSignUpErrors(err)
+        res.status(400).json(errors)
     }
 }
 
@@ -36,7 +70,8 @@ const loginUser = async (req, res) => {
         })
         res.status(200).json({user: user._id})
     } catch (err) {
-        res.status(400).json(err)    
+        const errors = handleLoginErrors(err)
+        res.status(400).json(errors)    
     }
 }
 
