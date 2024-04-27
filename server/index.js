@@ -4,6 +4,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const multer = require('multer');
 const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 const adminRoutes = require('./routes/adminRoutes')
 const newsRoutes = require('./routes/newsRoutes')
 const userRoutes = require('./routes/userRoutes')
@@ -30,6 +31,7 @@ const upload = multer({ storage: storage });
 
 app.use(express.json())
 app.use(cookieParser())
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(upload.single('img'))
 app.use('/api/admin', adminRoutes)
 app.use('/api/news', newsRoutes)

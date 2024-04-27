@@ -1,17 +1,19 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const { isAlphanumeric } = require('validator')
 
 const adminSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: true,
+        required: [true, 'Username required!'],
         unique: true,
-        lowercase: true
+        lowercase: true,
+        validate: [isAlphanumeric, 'Please enter a valid username!']
     },
     password: {
         type: String,
         required: true,
-        minlength: 6
+        minlength: [6, 'Minimum password length is 6!']
     }
 }, {timestamps: true})
 
