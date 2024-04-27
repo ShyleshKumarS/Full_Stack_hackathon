@@ -13,6 +13,18 @@ const newsSchema = mongoose.Schema({
         type: String,
         required: true,
         minlength: 30
+    },
+    views: {
+        type: Number,
+        default: 0
+    },
+    likes: {
+        type: Number,
+        default: 0
+    },
+    comments: {
+        type: Number,
+        default: 0
     }
 })
 
