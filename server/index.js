@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 const adminRoutes = require('./routes/adminRoutes')
 const newsRoutes = require('./routes/newsRoutes')
 const userRoutes = require('./routes/userRoutes')
+const { checkAdmin , checkUser} = require('./middleware/authMiddleware')
 
 const app = express()
 
@@ -17,6 +18,8 @@ app.use(cookieParser())
 app.use('/api/admin', adminRoutes)
 app.use('/api/news', newsRoutes)
 app.use('/api/user', userRoutes)
+
+app.get('*', checkAdmin, checkUser)
 
 mongoose.connect(MONGO_URI)
     .then(() => {

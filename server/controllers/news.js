@@ -2,7 +2,23 @@ const News = require('../models/news')
 
 const getNews = async (req, res) => {
     console.log('getting news')
-    const news = await News.find({})
+    const {genre} = req.query
+    var news = []
+    if (genre) {
+        news = await News.find({genre: genre})
+    } else {
+        news = await News.find({}).sort({createdAt: -1})
+    }
+    res.status(200).json(news)
+}
+
+const getSingleNews = async (req, res) => {
+    console.log('getting single news')
+    const {id} = req.params
+    const news = await News.findById({_id: id})
+    if(!news){
+        return res.status(404).json({error: "No such workout!"})
+    }
     res.status(200).json(news)
 }
 
@@ -47,6 +63,7 @@ const deleteNews = async (req, res) => {
 module.exports = { 
     addNews, 
     getNews,
+    getSingleNews,
     deleteNews,
     editNews
 }

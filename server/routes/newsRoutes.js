@@ -1,16 +1,17 @@
 const express = require('express')
-const { getNews, addNews, deleteNews, editNews } = require('../controllers/news')
+const { getNews, addNews, deleteNews, editNews, getSingleNews } = require('../controllers/news')
+const { requireAuth } = require('../middleware/authMiddleware')
 
 const router = express.Router()
 
 router.get('/', getNews)
 
-router.get('/:id')
+router.get('/:id', getSingleNews)
 
-router.post('/', addNews)
+router.post('/', requireAuth, addNews)
 
-router.delete('/:id', deleteNews)
+router.delete('/:id', requireAuth, deleteNews)
 
-router.patch('/:id', editNews)
+router.patch('/:id', requireAuth, editNews)
 
 module.exports = router
