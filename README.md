@@ -1,71 +1,66 @@
-# Getting Started with Create React App
+# News Reporting and Publication Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a News reporting and publication website built using React.js for the frontend, Node.js for the backend, and MongoDB Atlas for the database.
 
-## Available Scripts
+## Developers
 
-In the project directory, you can run:
+- **Shylesh Kumar S** - Frontend Developer
+- **Chinmay Hari** - Backend Developer
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- CRUD operations for news articles, including images.
+- Dynamic modifications for updating and deleting articles.
+- Separate admin and user views for managing and viewing articles.
+- User authentication using JWT tokens.
+- Base64 image conversion for storing and displaying images.
+- Local storage creation for storing user preferences.
+- Protected routes to restrict access to certain pages.
+- Cookie timeout for session management.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies Used
 
-### `npm test`
+- **Frontend**: React.js with Bootstrap
+- **Backend**: Node.js
+- **Database**: MongoDB Atlas
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+To get a local copy up and running follow these simple steps.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Node.js installed on your machine
+- MongoDB Atlas account for the database
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `npm run eject`
+1. Clone the repo
+   ```sh
+   git clone https://github.com/your-username/news-website.git
+2. Install NPM packages
+3. Create .env
+     REACT_APP_API_URL=http://localhost:4000
+4. Start front end
+     npm start
+5. start back end
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Usage
+- Navigate to http://localhost:3000 in your browser to view the website.
+- As an admin, you can log in to access the admin dashboard for managing articles.
+- Regular users can view articles and interact with them.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Contributing
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Fork the Project
+2. Create your Feature Branch (git checkout -b feature/AmazingFeature)
+3. Commit your Changes (git commit -m 'Add some AmazingFeature')
+4. Push to the Branch (git push origin feature/AmazingFeature)
+5. Open a Pull Request
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## License
+Distributed under the MIT License. See LICENSE for more information.
 
-## Learn More
+This should cover all the sections you provided in the Markdown format. Let me know if there's anything else you need!
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# Full_Stack_Hacks
